@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "cannon": "^0.6.2",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
+    "cannon": "0.6.2",
+    "react": "16.8.4",
+    "react-dom": "16.8.4",
     "react-scripts": "2.1.8",
-    "three": "^0.102.1"
+    "three": "0.102.1"
   },
   "scripts": {
     "start": "react-scripts start",
