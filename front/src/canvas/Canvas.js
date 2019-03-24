@@ -6,12 +6,16 @@ import PointerControl from "./PointerControl";
 import Utils from '../utils/Utils.js';
 import WhiteKube from "./objects/WhiteKube";
 import WhitePanelBuilder from "./objects/WhitePanelBuilder";
+import FBXLoader from 'three-fbxloader-offical';
 
 export default class Canvas extends React.Component {
     componentDidMount() {
-        var sphereShape, sphereBody, world, physicsMaterial, light, balls=[];
+
+
+        var sphereShape, sphereBody, world, physicsMaterial, light, light1, light2, spotLight1, balls=[];
         var bodies = [];
         var settings = {enabled: false};
+
 
         var camera, scene, renderer;
         var geometry, material, mesh;
@@ -138,10 +142,13 @@ export default class Canvas extends React.Component {
             scene = new THREE.Scene();
             scene.fog = new THREE.Fog( 0x000000, 0, 500 );
 
-            var ambient = new THREE.AmbientLight( 0x111111 );
-            scene.add( ambient );
+/*            var ambient = new THREE.AmbientLight( 0x111111 );
+            scene.add( ambient );*/
 
-            light = new THREE.SpotLight( 0xffffff );
+
+
+/*            light = new THREE.DirectionalLight( 0xffffff, 1 );
+            //light = new THREE.SpotLight( 0xffffff );
             light.position.set( 10, 60, 20 );
             light.target.position.set( 0, 0, 0 );
             light.castShadow = true;
@@ -154,17 +161,65 @@ export default class Canvas extends React.Component {
            // light.shadow.map.darkness = 0.7;
             light.shadow.mapSize.width = 2*512;
             light.shadow.mapSize.height = 2*512;
+            scene.add( light );*/
 
-            scene.add( light );
+            let loader1 = new FBXLoader();
+            loader1.load( '/models/fbx/lightBulbs_grp_01.fbx', function (lightBulbs) {
+                lightBulbs.castShadow = true;
+                lightBulbs.receiveShadow = true;
+                scene.add(lightBulbs);
+            });
+
+            let loader5 = new FBXLoader();
+            loader5.load( '/models/fbx/lights_grp.fbx', function (lights) {
+                lights.castShadow = true;
+                lights.receiveShadow = true;
+                scene.add(lights);
+            });
+
+            let loader6 = new FBXLoader();
+            loader6.load( '/models/fbx/floor.fbx', function (floor) {
+                floor.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                    }
+                } );
+                scene.add(floor);
+            });
 
 
+            let loader2 = new FBXLoader();
+            loader2.load( '/models/fbx/rabbit.fbx', function (rabbit) {
+                rabbit.castShadow = true;
+                rabbit.receiveShadow = true;
+                scene.add(rabbit);
+            });
+
+/*
+            let cylinder  = new THREE.CylinderGeometry( 0.05, 0.05, 0.2, 0.032 );
+            light1 = new THREE.PointLight( 0xff9000, 0.5, 20 );
+            light1.add( new THREE.Mesh( cylinder , new THREE.MeshBasicMaterial( { color: 0xff9000 } ) ) );
+            light1.castShadow = true;
+            light1.receiveShadow = true;
+            light1.position.set( -1.76, 2.52, -1.5 );
+            scene.add( light1 );
+
+            let cylinder1  = new THREE.CylinderGeometry( 0.05, 0.05, 0.2, 0.032 );
+            light2 = new THREE.PointLight( 0xff9000, 0.5, 20 );
+            light2.add( new THREE.Mesh( cylinder1 , new THREE.MeshBasicMaterial( { color: 0xff9000 } ) ) );
+            light2.castShadow = true;
+            light2.receiveShadow = true;
+            light2.position.set( 0.57, 2.52, -1.40 );
+            scene.add( light2 );
+*/
 
 
             controls = new PointerControl( camera , sphereBody, settings );
             scene.add( controls.getObject() );
 
             // floor
-            geometry = new THREE.PlaneGeometry( 300, 300, 50, 50 );
+/*            geometry = new THREE.PlaneGeometry( 300, 300, 50, 50 );
             geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
 
             material = new THREE.MeshLambertMaterial( { color: 0xdddddd } );
@@ -172,9 +227,35 @@ export default class Canvas extends React.Component {
             mesh = new THREE.Mesh( geometry, material );
             mesh.castShadow = true;
             mesh.receiveShadow = true;
-            scene.add( mesh );
+            scene.add( mesh );*/
 
-            renderer = new THREE.WebGLRenderer();
+            const loader = new FBXLoader();
+            loader.load( '/models/fbx/bar_final_02.fbx', function ( object ) {
+                object.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        child.castShadow = true;
+                    }
+                } );
+                scene.add( object );
+            } );
+
+            const loader4 = new FBXLoader();
+            loader4.load( '/models/fbx/tv.fbx', function ( object ) {
+                object.castShadow = true;
+                object.receiveShadow = true;
+                scene.add( object );
+            } );
+            let loader7 = new FBXLoader();
+            loader6.load( '/models/fbx/tarshers_grp.fbx', function (tarshers) {
+                tarshers.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        child.castShadow = true;
+                    }
+                } );
+                scene.add(tarshers);
+            });
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.shadowMap.enabled = true;
             renderer.shadowMapSoft = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -185,7 +266,7 @@ export default class Canvas extends React.Component {
 
             window.addEventListener( 'resize', onWindowResize, false );
 
-            // Add boxes
+/*            // Add boxes
             for(var i=0; i<7; i++){
                 const box = new WhiteKube(
                     (Math.random()-0.5)*20,
@@ -194,11 +275,11 @@ export default class Canvas extends React.Component {
                 );
                 bodies.push(box);
                 box.addTo(world, scene);
-            }
+            }*/
 
 
             // Add linked boxes
-            var mass = 0;
+/*            var mass = 0;
             var N = 5, last = null;
             for(var i=0; i<N; i++){
                 const builder = new WhitePanelBuilder(mass, i, world, scene, N, last);
@@ -206,7 +287,7 @@ export default class Canvas extends React.Component {
                 mass = builder.getMass();
                 last = builder.getLast();
                 bodies.push(builder.build());
-            }
+            }*/
         }
 
         function onWindowResize() {
