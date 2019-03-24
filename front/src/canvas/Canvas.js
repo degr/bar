@@ -191,8 +191,12 @@ export default class Canvas extends React.Component {
 
             let loader2 = new FBXLoader();
             loader2.load( '/models/fbx/rabbit.fbx', function (rabbit) {
-                rabbit.castShadow = true;
-                rabbit.receiveShadow = true;
+                rabbit.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                    }
+                } );
                 scene.add(rabbit);
             });
 
