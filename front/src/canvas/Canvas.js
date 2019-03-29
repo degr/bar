@@ -283,7 +283,7 @@ export default class Canvas extends React.Component {
             });
 
             let loader10 = new FBXLoader();
-            loader10.load( '/models/fbx/avatar_bakedToBones_14.fbx', function (avatar) {
+            loader10.load( '/models/fbx/avatar_bakedToBones_17.fbx', function (avatar) {
 
                 mixer = new THREE.AnimationMixer( avatar );
                 var action = mixer.clipAction( avatar.animations[ 0 ] );
