@@ -15,7 +15,7 @@ export default class Canvas extends React.Component {
         var sphereShape, sphereBody, world, physicsMaterial, light, light1, light2, spotLight1, balls=[];
         var bodies = [];
         var settings = {enabled: false};
-
+        var mixer;
 
         var camera, scene, renderer;
         var geometry, material, mesh;
@@ -137,10 +137,10 @@ export default class Canvas extends React.Component {
 
         function init() {
 
-            camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+            camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
             scene = new THREE.Scene();
-            scene.fog = new THREE.Fog( 0x000000, 0, 500 );
+            //scene.fog = new THREE.Fog( 0x000000, 0, 500 );
 
 /*            var ambient = new THREE.AmbientLight( 0x111111 );
             scene.add( ambient );*/
@@ -197,6 +197,7 @@ export default class Canvas extends React.Component {
                         child.receiveShadow = true;
                     }
                 } );
+
                 scene.add(rabbit);
             });
 
@@ -249,8 +250,9 @@ export default class Canvas extends React.Component {
                 object.receiveShadow = true;
                 scene.add( object );
             } );
+
             let loader7 = new FBXLoader();
-            loader6.load( '/models/fbx/tarshers_grp.fbx', function (tarshers) {
+            loader7.load( '/models/fbx/tarshers_grp.fbx', function (tarshers) {
                 tarshers.traverse( function ( child ) {
                     if ( child.isMesh ) {
                         child.castShadow = true;
@@ -259,12 +261,49 @@ export default class Canvas extends React.Component {
                 scene.add(tarshers);
             });
 
+            let loader8 = new FBXLoader();
+            loader8.load( '/models/fbx/glass_heineken.fbx', function (glass) {
+                glass.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        child.castShadow = true;
+                    }
+                } );
+                scene.add(glass);
+            });
+
+
+            let loader9 = new FBXLoader();
+            loader9.load( '/models/fbx/chairBar_03.fbx', function (stool) {
+                stool.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        child.castShadow = true;
+                    }
+                } );
+                scene.add(stool);
+            });
+
+            let loader10 = new FBXLoader();
+            loader10.load( '/models/fbx/avatar_bakedToBones_14.fbx', function (avatar) {
+
+                mixer = new THREE.AnimationMixer( avatar );
+                var action = mixer.clipAction( avatar.animations[ 0 ] );
+                action.play();
+
+                avatar.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        child.castShadow = true;
+                        avatar.scale.set(0.04,0.04,0.04);
+                    }
+                } );
+                scene.add(avatar);
+            });
+
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.shadowMap.enabled = true;
             renderer.shadowMapSoft = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             renderer.setSize( window.innerWidth, window.innerHeight );
-            renderer.setClearColor( scene.fog.color, 1 );
+            //renderer.setClearColor( scene.fog.color, 1 );
 
             document.body.appendChild( renderer.domElement );
 
@@ -300,14 +339,17 @@ export default class Canvas extends React.Component {
             renderer.setSize( window.innerWidth, window.innerHeight );
         }
 
-        var dt = 1/60;
+        var dt = 1.5/60;
         function animate() {
             requestAnimationFrame( animate );
+            //var delta = clock.getDelta();
+            //if ( mixer ) mixer.update( delta );
+
             if(settings.enabled){
                 world.step(dt);
-
+                if ( mixer ) mixer.update( dt );
                 // Update ball positions
-                bodies.forEach(function(v){v.update()});
+                bodies.forEach(function(dt){dt.update()});
             }
 
             controls.update( Date.now() - time );
