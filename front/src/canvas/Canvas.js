@@ -137,7 +137,7 @@ export default class Canvas extends React.Component {
 
         function init() {
 
-            camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.01, 1000 );
+            camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
             scene = new THREE.Scene();
             //scene.fog = new THREE.Fog( 0x000000, 0, 500 );
@@ -148,42 +148,10 @@ export default class Canvas extends React.Component {
             controls = new PointerControl( camera , sphereBody, settings );
             scene.add( controls.getObject() );
 
-            /*            light = new THREE.DirectionalLight( 0xffffff, 1 );
-                        //light = new THREE.SpotLight( 0xffffff );
-                        light.position.set( 10, 60, 20 );
-                        light.target.position.set( 0, 0, 0 );
-                        light.castShadow = true;
 
-                        light.shadow.camera.near = 30;
-                        light.shadow.camera.far = 500;//camera.far;
-                        light.shadow.camera.fov = 100;
+            let loader = new FBXLoader();
 
-                        //light.shadow.map.bias = 0.1;
-                       // light.shadow.map.darkness = 0.7;
-                        light.shadow.mapSize.width = 2*512;
-                        light.shadow.mapSize.height = 2*512;
-                        scene.add( light );*/
-
-            /*
-                        let cylinder  = new THREE.CylinderGeometry( 0.05, 0.05, 0.2, 0.032 );
-                        light1 = new THREE.PointLight( 0xff9000, 0.5, 20 );
-                        light1.add( new THREE.Mesh( cylinder , new THREE.MeshBasicMaterial( { color: 0xff9000 } ) ) );
-                        light1.castShadow = true;
-                        light1.receiveShadow = true;
-                        light1.position.set( -1.76, 2.52, -1.5 );
-                        scene.add( light1 );
-
-                        let cylinder1  = new THREE.CylinderGeometry( 0.05, 0.05, 0.2, 0.032 );
-                        light2 = new THREE.PointLight( 0xff9000, 0.5, 20 );
-                        light2.add( new THREE.Mesh( cylinder1 , new THREE.MeshBasicMaterial( { color: 0xff9000 } ) ) );
-                        light2.castShadow = true;
-                        light2.receiveShadow = true;
-                        light2.position.set( 0.57, 2.52, -1.40 );
-                        scene.add( light2 );
-            */
-
-            let loader1 = new FBXLoader();
-            loader1.load( '/models/fbx/lightBulbs_grp_01.fbx', function (lightBulbs) {
+            loader.load( '/models/fbx/lightBulbs_grp_01.fbx', function (lightBulbs) {
                 lightBulbs.traverse( function ( child ) {
                     if ( child.isMesh ) {
 
@@ -192,48 +160,32 @@ export default class Canvas extends React.Component {
                 scene.add(lightBulbs);
             });
 
-            let loader5 = new FBXLoader();
-            loader5.load( '/models/fbx/lights_grp.fbx', function (lights) {
-
-                lights.traverse( function ( child ) {
-                    if ( child.isMesh ) {
-
-                    }
-                } );
+            loader.load( '/models/fbx/lights_grp.fbx', function (lights) {
                 scene.add(lights);
             });
 
-
-            let loader6 = new FBXLoader();
-            loader6.load( '/models/fbx/floor.fbx', function (floor) {
-                floor.traverse( function ( child ) {
-                    if ( child.isMesh ) {
-                        //child.receiveShadow = true;
-
-                    }
-                } );
+            loader.load( '/models/fbx/floor.fbx', function (floor) {
                 scene.add(floor);
             });
 
+            loader.load( '/models/fbx/rabbit.fbx', function (rabbit) {
 
-            let loader2 = new FBXLoader();
-            loader2.load( '/models/fbx/rabbit.fbx', function (rabbit) {
-                rabbit.traverse( function ( child ) {
-                    if ( child.isMesh ) {
-
+                rabbit.traverse( function( node ) {
+                    if( node.material ) {
+                        node.material.side = THREE.DoubleSide;
                     }
-                } );
+                });
 
                 scene.add(rabbit);
             });
 
-
-
-
-            const loader = new FBXLoader();
             loader.load( '/models/fbx/bar_final_02.fbx', function ( bar ) {
+
+
+
                 bar.traverse( function ( child ) {
                     if ( child.isMesh ) {
+
                         //child.castShadow = true;
 
                     }
@@ -241,8 +193,7 @@ export default class Canvas extends React.Component {
                 scene.add( bar );
             } );
 
-            const loader4 = new FBXLoader();
-            loader4.load( '/models/fbx/tv.fbx', function ( tv ) {
+            loader.load( '/models/fbx/tv.fbx', function ( tv ) {
                 tv.traverse( function ( child ) {
                     if ( child.isMesh ) {
 
@@ -251,8 +202,7 @@ export default class Canvas extends React.Component {
                 scene.add( tv );
             } );
 
-            let loader7 = new FBXLoader();
-            loader7.load( '/models/fbx/tarshers_grp.fbx', function (tarshers) {
+            loader.load( '/models/fbx/tarshers_grp.fbx', function (tarshers) {
                 tarshers.traverse( function ( child ) {
                     if ( child.isMesh ) {
                         child.castShadow = true;
@@ -262,10 +212,10 @@ export default class Canvas extends React.Component {
                 scene.add(tarshers);
             });
 
-            let loader8 = new FBXLoader();
-            loader8.load( '/models/fbx/glass_heineken.fbx', function (glass) {
+            loader.load( '/models/fbx/glass_heineken.fbx', function (glass) {
                 glass.traverse( function ( child ) {
                     if ( child.isMesh ) {
+                        //glass.rotation.set(new THREE.Vector3( 0, 0, 0));
                         child.castShadow = true;
 
                     }
@@ -273,75 +223,56 @@ export default class Canvas extends React.Component {
                 scene.add(glass);
             });
 
-
-            let loader9 = new FBXLoader();
-            loader9.load( '/models/fbx/chairBar_03.fbx', function (stool) {
+            loader.load( '/models/fbx/chairBar_03.fbx', function (stool) {
                 stool.traverse( function ( child ) {
                     if ( child.isMesh ) {
                         child.castShadow = true;
+                        stool.scale.set(0.1,0.1,0.1);
 
                     }
                 } );
                 scene.add(stool);
             });
 
-            let loader10 = new FBXLoader();
-            loader10.load( '/models/fbx/avatar_bakedToBones_28.fbx', function (avatar) {
+            loader.load( '/models/fbx/avatar_bakedToBones_37.fbx', function (avatar) {
+                avatar.traverse( function( node ) {
+                    if( node.material ) {
+                        node.material.side = THREE.DoubleSide;
+                    }
+                });
+
 
                 mixer = new THREE.AnimationMixer( avatar );
                 var action = mixer.clipAction( avatar.animations[ 0 ] );
                 action.play();
 
-/*                avatar.traverse( function( node ) {
-                    if( node.material ) {
-                        node.material.side = THREE.DoubleSide;
-                    }
-                });*/
-
                 avatar.traverse( function ( child ) {
                     if ( child.isMesh ) {
                         child.castShadow = true;
-                        child.position.set(0,0,0);
-                        child.rotateY(THREE.Math.degToRad(180));
-                        //avatar.scale.set(0.04,0.04,0.04);
+                        //child.rotateX(Math.PI / 2);
+
                     }
                 } );
                 scene.add(avatar);
+
+
+                avatar.position.x = -1.93;
+                //avatar.position.y = 0.09;
+                avatar.position.z = -0.547;
+                avatar.scale.set(0.1,0.1,0.1);
+
             });
 
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.shadowMap.enabled = true;
-            renderer.shadowMapSoft = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.setPixelRatio( window.devicePixelRatio ); //from fbx_load
+            //renderer.shadowMapSoft = true;
+            //renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             renderer.setSize( window.innerWidth, window.innerHeight );
             //renderer.setClearColor( scene.fog.color, 1 );
 
             document.body.appendChild( renderer.domElement );
 
-            window.addEventListener( 'resize', onWindowResize, false );
-
-            /*            // Add boxes
-                        for(var i=0; i<7; i++){
-                            const box = new WhiteKube(
-                                (Math.random()-0.5)*20,
-                                1 + (Math.random() - 0.5),
-                                (Math.random()-0.5)*20
-                            );
-                            bodies.push(box);
-                            box.addTo(world, scene);
-                        }*/
-
-
-            // Add linked boxes
-            /*            var mass = 0;
-                        var N = 5, last = null;
-                        for(var i=0; i<N; i++){
-                            const builder = new WhitePanelBuilder(mass, i, world, scene, N, last);
-                            builder.addConstraints(last, world);
-                            mass = builder.getMass();
-                            last = builder.getLast();
-                            bodies.push(builder.build());
-                        }*/
         }
 
         function onWindowResize() {
@@ -353,15 +284,11 @@ export default class Canvas extends React.Component {
         var dt = 1/60;
         function animate() {
             requestAnimationFrame( animate );
-            //var delta = clock.getDelta();
-            //if ( mixer ) mixer.update( delta );
 
             if(settings.enabled){
                 world.step(dt);
                 if ( mixer ) mixer.update( dt );
 
-                // Update ball positions
-                bodies.forEach(function(dt){dt.update()});
             }
 
             controls.update( Date.now() - time );
@@ -369,59 +296,6 @@ export default class Canvas extends React.Component {
             time = Date.now();
 
         }
-
-        var ballShape = new CANNON.Sphere(0.2);
-        var ballGeometry = new THREE.SphereGeometry(ballShape.radius, 32, 32);
-        var shootDirection = new THREE.Vector3();
-        var shootVelo = 15;
-
-
-        const unprojectVector=function(){
-            var matrix=new THREE.Matrix4;
-            var B=new THREE.Matrix4;
-            return function(vector,camera){
-                matrix.getInverse(camera.projectionMatrix);
-                B.multiplyMatrices(camera.matrixWorld, matrix);
-                return vector.applyProjection(B)
-            }
-        }();
-
-        function getShootDir(targetVec){
-            var vector = targetVec;
-            targetVec.set(0,0,1);
-            unprojectVector(vector, camera);
-            var ray = new THREE.Ray(sphereBody.position, vector.sub(sphereBody.position).normalize() );
-            targetVec.copy(ray.direction);
-        }
-
-        window.addEventListener("click",function(e){
-            if(settings.enabled){
-                var x = sphereBody.position.x;
-                var y = sphereBody.position.y;
-                var z = sphereBody.position.z;
-                var ballBody = new CANNON.Body({ mass: 1 });
-                ballBody.addShape(ballShape);
-                var ballMesh = new THREE.Mesh( ballGeometry, material );
-                world.add(ballBody);
-                scene.add(ballMesh);
-                ballMesh.castShadow = true;
-                ballMesh.receiveShadow = true;
-                balls.push(ballBody);
-                bodies.push(new BodyComposition(ballMesh, ballBody));
-                getShootDir(shootDirection);
-                ballBody.velocity.set(  shootDirection.x * shootVelo,
-                    shootDirection.y * shootVelo,
-                    shootDirection.z * shootVelo);
-
-                // Move the ball outside the player sphere
-                x += shootDirection.x * (sphereShape.radius*1.02 + ballShape.radius);
-                y += shootDirection.y * (sphereShape.radius*1.02 + ballShape.radius);
-                z += shootDirection.z * (sphereShape.radius*1.02 + ballShape.radius);
-                ballBody.position.set(x,y,z);
-                ballMesh.position.set(x,y,z);
-            }
-        });
-
 
     }
 
