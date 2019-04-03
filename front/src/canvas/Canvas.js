@@ -12,13 +12,11 @@ export default class Canvas extends React.Component {
     componentDidMount() {
 
 
-        var sphereShape, sphereBody, world, physicsMaterial, light, light1, light2, spotLight1, balls=[];
-        var bodies = [];
+        var sphereShape, sphereBody, world, physicsMaterial, bulbLight, bulbMat;
         var settings = {enabled: false};
-        var mixer;
+        var mixer_01, mixer_02, mixer_03;
 
         var camera, scene, renderer;
-        var geometry, material, mesh;
         var controls,time = Date.now();
 
         var blocker = document.getElementById( 'blocker' );
@@ -145,6 +143,19 @@ export default class Canvas extends React.Component {
 /*            var ambient = new THREE.AmbientLight( 0x111111 );
             scene.add( ambient );*/
 
+
+            var bulbGeometry = new THREE.SphereBufferGeometry( 0.02, 16, 8 );
+            bulbLight = new THREE.PointLight( 0xFFD47A, 1, 100, 2 );
+            bulbMat = new THREE.MeshStandardMaterial( {
+                emissive: 0xffffee,
+                emissiveIntensity: 1,
+                color: 0x000000
+            } );
+            bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
+            bulbLight.position.set( 0, 2, 0 );
+            //bulbLight.castShadow = true;
+            scene.add( bulbLight );
+
             controls = new PointerControl( camera , sphereBody, settings );
             scene.add( controls.getObject() );
 
@@ -160,26 +171,43 @@ export default class Canvas extends React.Component {
                 scene.add(lightBulbs);
             });
 
-            loader.load( '/models/fbx/lights_grp.fbx', function (lights) {
+/*            loader.load( '/models/fbx/lights_grp_02.fbx', function (lights) {
+                lights.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        child.castShadow = true;
+
+                    }
+                } );
                 scene.add(lights);
-            });
+                lights.scale.set(0.1,0.1,0.1);
+            });*/
 
             loader.load( '/models/fbx/floor.fbx', function (floor) {
+                floor.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        //child.receiveShadow = true;
+                    }
+                } );
                 scene.add(floor);
             });
 
             loader.load( '/models/fbx/rabbit.fbx', function (rabbit) {
+                scene.add(rabbit);
+                rabbit.scale.set(0.1,0.1,0.1);
 
-                rabbit.traverse( function( node ) {
+            });
+
+            loader.load( '/models/fbx/logo.fbx', function (logo) {
+                logo.traverse( function( node ) {
                     if( node.material ) {
                         node.material.side = THREE.DoubleSide;
                     }
                 });
-
-                scene.add(rabbit);
+                scene.add(logo);
+                logo.scale.set(0.1,0.1,0.1);
             });
 
-            loader.load( '/models/fbx/bar_final_02.fbx', function ( bar ) {
+            loader.load( '/models/fbx/bar_concept_01.fbx', function ( bar ) {
 
 
 
@@ -205,60 +233,99 @@ export default class Canvas extends React.Component {
             loader.load( '/models/fbx/tarshers_grp.fbx', function (tarshers) {
                 tarshers.traverse( function ( child ) {
                     if ( child.isMesh ) {
-                        child.castShadow = true;
+                        //child.castShadow = true;
 
                     }
                 } );
                 scene.add(tarshers);
+                tarshers.scale.set(0.1,0.1,0.1);
             });
 
-            loader.load( '/models/fbx/glass_heineken.fbx', function (glass) {
-                glass.traverse( function ( child ) {
+            loader.load( '/models/fbx/bar_chairs_grp.fbx', function (chairs) {
+                chairs.traverse( function ( child ) {
                     if ( child.isMesh ) {
-                        //glass.rotation.set(new THREE.Vector3( 0, 0, 0));
-                        child.castShadow = true;
+                        //child.castShadow = true;
+                        chairs.scale.set(0.1,0.1,0.1);
 
                     }
                 } );
-                scene.add(glass);
+                scene.add(chairs);
             });
 
-            loader.load( '/models/fbx/chairBar_03.fbx', function (stool) {
-                stool.traverse( function ( child ) {
-                    if ( child.isMesh ) {
-                        child.castShadow = true;
-                        stool.scale.set(0.1,0.1,0.1);
-
-                    }
-                } );
-                scene.add(stool);
-            });
-
-            loader.load( '/models/fbx/avatar_bakedToBones_37.fbx', function (avatar) {
+            loader.load( '/models/fbx/avatar_sit_bar_01.fbx', function (avatar) {
                 avatar.traverse( function( node ) {
                     if( node.material ) {
                         node.material.side = THREE.DoubleSide;
                     }
                 });
 
-
-                mixer = new THREE.AnimationMixer( avatar );
-                var action = mixer.clipAction( avatar.animations[ 0 ] );
+                mixer_01 = new THREE.AnimationMixer( avatar );
+                var action = mixer_01.clipAction( avatar.animations[ 0 ] );
                 action.play();
 
                 avatar.traverse( function ( child ) {
                     if ( child.isMesh ) {
-                        child.castShadow = true;
-                        //child.rotateX(Math.PI / 2);
-
+                        //child.castShadow = true;
                     }
                 } );
                 scene.add(avatar);
 
 
-                avatar.position.x = -1.93;
-                //avatar.position.y = 0.09;
-                avatar.position.z = -0.547;
+                avatar.position.x = 0.10;
+                avatar.position.y = -0.02;
+                avatar.position.z = 0.54;
+                avatar.scale.set(0.1,0.1,0.1);
+
+            });
+
+            loader.load( '/models/fbx/avatar_sit_table_01.fbx', function (avatar) {
+                avatar.traverse( function( node ) {
+                    if( node.material ) {
+                        node.material.side = THREE.DoubleSide;
+                    }
+                });
+
+                mixer_02 = new THREE.AnimationMixer( avatar );
+                var action = mixer_02.clipAction( avatar.animations[ 0 ] );
+                action.play();
+
+                avatar.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        child.castShadow = true;
+                    }
+                } );
+                scene.add(avatar);
+
+
+                avatar.position.x = -4.85;
+                //avatar.position.y = -0.01;
+                avatar.position.z = 3;
+                avatar.scale.set(0.1,0.1,0.1);
+
+            });
+
+            loader.load( '/models/fbx/avatar_sit_sofa_01.fbx', function (avatar) {
+                avatar.traverse( function( node ) {
+                    if( node.material ) {
+                        node.material.side = THREE.DoubleSide;
+                    }
+                });
+
+                mixer_03 = new THREE.AnimationMixer( avatar );
+                var action = mixer_03.clipAction( avatar.animations[ 0 ] );
+                action.play();
+
+                avatar.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        child.castShadow = true;
+                    }
+                } );
+                scene.add(avatar);
+
+
+                avatar.position.x = 3.84;
+                //avatar.position.y = -0.01;
+                avatar.position.z = 4.1;
                 avatar.scale.set(0.1,0.1,0.1);
 
             });
@@ -287,7 +354,9 @@ export default class Canvas extends React.Component {
 
             if(settings.enabled){
                 world.step(dt);
-                if ( mixer ) mixer.update( dt );
+                if ( mixer_01 ) mixer_01.update( dt );
+                if ( mixer_02 ) mixer_02.update( dt );
+                if ( mixer_03 ) mixer_03.update( dt );
 
             }
 
