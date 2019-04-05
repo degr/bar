@@ -12,7 +12,8 @@ export default class Canvas extends React.Component {
     componentDidMount() {
 
 
-        var sphereShape, sphereBody, world, physicsMaterial, bulbLight, bulbMat;
+        var sphereShape, sphereBody, world, physicsMaterial, bulbLight, bulbMat, spotLight1,spotLight2, spotLight3 ;
+        var lightHelper1, lightHelper2, lightHelper3;
         var settings = {enabled: false};
         var mixer_01, mixer_02, mixer_03;
 
@@ -133,6 +134,42 @@ export default class Canvas extends React.Component {
             world.add(groundBody);
         }
 
+        function createSpotlight( color ) {
+            var newObj = new THREE.SpotLight( color, 1 );
+            newObj.castShadow = true;
+            newObj.angle = 1.2;
+            newObj.penumbra = 0.1;
+            newObj.decay = 0.1;
+            newObj.distance = 15;
+            newObj.shadow.mapSize.width = 512;
+            newObj.shadow.mapSize.height = 512;
+            return newObj;
+        }
+
+        function createSpotlight2( color ) {
+            var newObj = new THREE.SpotLight( color, 1 );
+            newObj.castShadow = true;
+            newObj.angle = 0.63;
+            newObj.penumbra = 0.3;
+            newObj.decay = 0.1;
+            newObj.distance = 7;
+            newObj.shadow.mapSize.width = 512;
+            newObj.shadow.mapSize.height = 512;
+            return newObj;
+        }
+
+
+        function createSpotlight3( color ) {
+            var newObj = new THREE.SpotLight( color, 1 );
+            newObj.castShadow = true;
+            newObj.angle = 0.9;
+            newObj.penumbra = 0.09;
+            newObj.decay = 0.1;
+            newObj.distance = 7;
+            newObj.shadow.mapSize.width = 512;
+            newObj.shadow.mapSize.height = 512;
+            return newObj;
+        }
         function init() {
 
             camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -140,11 +177,21 @@ export default class Canvas extends React.Component {
             scene = new THREE.Scene();
             //scene.fog = new THREE.Fog( 0x000000, 0, 500 );
 
-/*            var ambient = new THREE.AmbientLight( 0x111111 );
-            scene.add( ambient );*/
+            var ambient = new THREE.AmbientLight( 0x00C3FF, 0.43 );
+            ambient.castShadow = true;
+            scene.add( ambient );
 
 
-            var bulbGeometry = new THREE.SphereBufferGeometry( 0.02, 16, 8 );
+
+/*            hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+            hemiLight.color.setHSL( 0.6, 1, 0.6 );
+            hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+            hemiLight.position.set( 0, 0, 0 );
+            scene.add( hemiLight );
+            hemiLightHelper = new THREE.HemisphereLightHelper( hemiLight, 10 );
+            scene.add( hemiLightHelper );*/
+
+/*            var bulbGeometry = new THREE.SphereBufferGeometry( 0.02, 16, 8 );
             bulbLight = new THREE.PointLight( 0xFFD47A, 1, 100, 2 );
             bulbMat = new THREE.MeshStandardMaterial( {
                 emissive: 0xffffee,
@@ -152,9 +199,9 @@ export default class Canvas extends React.Component {
                 color: 0x000000
             } );
             bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
-            bulbLight.position.set( 0, 2, 0 );
-            //bulbLight.castShadow = true;
-            scene.add( bulbLight );
+            bulbLight.position.set( 0, 2, 2 );
+            bulbLight.castShadow = true;
+            scene.add( bulbLight );*/
 
             controls = new PointerControl( camera , sphereBody, settings );
             scene.add( controls.getObject() );
@@ -171,50 +218,45 @@ export default class Canvas extends React.Component {
                 scene.add(lightBulbs);
             });
 
-/*            loader.load( '/models/fbx/lights_grp_02.fbx', function (lights) {
+/*            loader.load( '/models/fbx/spotLight_01.fbx', function (lights) {
                 lights.traverse( function ( child ) {
                     if ( child.isMesh ) {
                         child.castShadow = true;
+                        //lights.scale.set(0.1,0.1,0.1);
 
                     }
                 } );
                 scene.add(lights);
-                lights.scale.set(0.1,0.1,0.1);
+
             });*/
 
             loader.load( '/models/fbx/floor.fbx', function (floor) {
                 floor.traverse( function ( child ) {
                     if ( child.isMesh ) {
-                        //child.receiveShadow = true;
+                        floor.scale.set(0.1,0.1,0.1);
+                        child.receiveShadow = true;
                     }
                 } );
                 scene.add(floor);
             });
 
-            loader.load( '/models/fbx/rabbit.fbx', function (rabbit) {
-                scene.add(rabbit);
-                rabbit.scale.set(0.1,0.1,0.1);
 
-            });
-
-            loader.load( '/models/fbx/logo.fbx', function (logo) {
+            loader.load( '/models/fbx/logo_02.fbx', function (logo) {
                 logo.traverse( function( node ) {
                     if( node.material ) {
-                        node.material.side = THREE.DoubleSide;
+                        //node.material.side = THREE.DoubleSide;
                     }
                 });
                 scene.add(logo);
                 logo.scale.set(0.1,0.1,0.1);
             });
 
-            loader.load( '/models/fbx/bar_concept_01.fbx', function ( bar ) {
-
-
-
+            loader.load( '/models/fbx/bar_final_03.fbx', function ( bar ) {
                 bar.traverse( function ( child ) {
                     if ( child.isMesh ) {
-
-                        //child.castShadow = true;
+                        bar.scale.set(0.1,0.1,0.1);
+                        child.castShadow = true;
+                        child.receiveShadow = true;
 
                     }
                 } );
@@ -224,7 +266,7 @@ export default class Canvas extends React.Component {
             loader.load( '/models/fbx/tv.fbx', function ( tv ) {
                 tv.traverse( function ( child ) {
                     if ( child.isMesh ) {
-
+                        //tv.scale.set(0.1,0.1,0.1);
                     }
                 } );
                 scene.add( tv );
@@ -244,7 +286,7 @@ export default class Canvas extends React.Component {
             loader.load( '/models/fbx/bar_chairs_grp.fbx', function (chairs) {
                 chairs.traverse( function ( child ) {
                     if ( child.isMesh ) {
-                        //child.castShadow = true;
+                        child.castShadow = true;
                         chairs.scale.set(0.1,0.1,0.1);
 
                     }
@@ -265,7 +307,7 @@ export default class Canvas extends React.Component {
 
                 avatar.traverse( function ( child ) {
                     if ( child.isMesh ) {
-                        //child.castShadow = true;
+                        child.castShadow = true;
                     }
                 } );
                 scene.add(avatar);
@@ -330,11 +372,35 @@ export default class Canvas extends React.Component {
 
             });
 
+            let spotLight1 = createSpotlight( 0xFF7E00 );
+            spotLight1.position.set( 0, 2.4,-1 );
+            spotLight1.target.position.set(0,0,-1.3)
+            //lightHelper1 = new THREE.SpotLightHelper( spotLight1 );
+/*            spotLight1.shadow.camera.near = 10;
+            spotLight1.shadow.camera.far = 1;
+            spotLight1.shadow.camera.fov = 1;*/
+            scene.add( spotLight1.target, spotLight1);
+            //scene.add( lightHelper1);
+
+            let spotLight2 = createSpotlight2( 0xFF7E00 );
+            spotLight2.position.set( -4.48, 2.4,2.7 );
+            spotLight2.target.position.set(-4.48,0,2.7)
+            //lightHelper2 = new THREE.SpotLightHelper( spotLight2 );
+            scene.add( spotLight2.target, spotLight2);
+            //scene.add( lightHelper2);
+
+            let spotLight3 = createSpotlight3( 0xFF7E00 );
+            spotLight3.position.set( 3.84, 2.4,4.5 );
+            spotLight3.target.position.set(3.84, 0,4.5)
+            //lightHelper3 = new THREE.SpotLightHelper( spotLight3 );
+            scene.add( spotLight3.target, spotLight3);
+            //scene.add( lightHelper3);
+
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.shadowMap.enabled = true;
-            renderer.setPixelRatio( window.devicePixelRatio ); //from fbx_load
-            //renderer.shadowMapSoft = true;
-            //renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            //renderer.setPixelRatio( window.devicePixelRatio ); //from fbx_load
+            renderer.shadowMapSoft = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             renderer.setSize( window.innerWidth, window.innerHeight );
             //renderer.setClearColor( scene.fog.color, 1 );
 
