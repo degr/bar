@@ -1,19 +1,15 @@
 import React from 'react';
 import * as THREE from 'three';
 import CANNON from 'cannon';
-import BodyComposition from "./BodyComposition";
 import PointerControl from "./PointerControl";
 import Utils from '../utils/Utils.js';
-import WhiteKube from "./objects/WhiteKube";
-import WhitePanelBuilder from "./objects/WhitePanelBuilder";
 import FBXLoader from 'three-fbxloader-offical';
 
 export default class Canvas extends React.Component {
     componentDidMount() {
 
 
-        var sphereShape, sphereBody, world, physicsMaterial, bulbLight, bulbMat, spotLight1,spotLight2, spotLight3 ;
-        var lightHelper1, lightHelper2, lightHelper3;
+        var sphereShape, sphereBody, world, physicsMaterial;
         var settings = {enabled: false};
         var mixer_01, mixer_02, mixer_03;
 
@@ -22,6 +18,7 @@ export default class Canvas extends React.Component {
 
         var blocker = document.getElementById( 'blocker' );
         var instructions = document.getElementById( 'instructions' );
+
 
 
         if ( Utils.hasPointerLock() ) {
@@ -84,6 +81,11 @@ export default class Canvas extends React.Component {
         initCannon();
         init();
         animate();
+
+        function detectFPS() {
+
+
+        }
 
         function initCannon(){
             // Setup our world
@@ -178,7 +180,6 @@ export default class Canvas extends React.Component {
             //scene.fog = new THREE.Fog( 0x000000, 0, 500 );
 
             var ambient = new THREE.AmbientLight( 0x00C3FF, 0.43 );
-            ambient.castShadow = true;
             scene.add( ambient );
 
 
@@ -241,8 +242,15 @@ export default class Canvas extends React.Component {
             });
 
             loader.load( '/models/fbx/buttles_grp_01.fbx', function (buttles) {
+                buttles.traverse( function( node ) {
+                    if( node.material ) {
+                        node.material.side = THREE.DoubleSide;
+                    }
+                });
+
                 buttles.traverse( function ( child ) {
                     if ( child.isMesh ) {
+                        //child.castShadow = true;
                         buttles.scale.set(0.1,0.1,0.1);
                     }
                 } );
@@ -275,7 +283,7 @@ export default class Canvas extends React.Component {
             loader.load( '/models/fbx/tv.fbx', function ( tv ) {
                 tv.traverse( function ( child ) {
                     if ( child.isMesh ) {
-                        //tv.scale.set(0.1,0.1,0.1);
+                        tv.scale.set(0.1,0.1,0.1);
                     }
                 } );
                 scene.add( tv );
@@ -427,6 +435,8 @@ export default class Canvas extends React.Component {
         function animate() {
             requestAnimationFrame( animate );
 
+            //let t0 = performance.now();
+
             if(settings.enabled){
                 world.step(dt);
                 if ( mixer_01 ) mixer_01.update( dt );
@@ -439,6 +449,9 @@ export default class Canvas extends React.Component {
             renderer.render( scene, camera );
             time = Date.now();
 
+            //let t1 = performance.now();
+
+            //console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
         }
 
     }
