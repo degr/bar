@@ -240,6 +240,15 @@ export default class Canvas extends React.Component {
                 scene.add(floor);
             });
 
+            loader.load( '/models/fbx/buttles_grp_01.fbx', function (buttles) {
+                buttles.traverse( function ( child ) {
+                    if ( child.isMesh ) {
+                        buttles.scale.set(0.1,0.1,0.1);
+                    }
+                } );
+                scene.add(buttles);
+            });
+
 
             loader.load( '/models/fbx/logo_02.fbx', function (logo) {
                 logo.traverse( function( node ) {
