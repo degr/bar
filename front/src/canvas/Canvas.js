@@ -4,8 +4,17 @@ import CANNON from 'cannon';
 import PointerControl from "./PointerControl";
 import Utils from '../utils/Utils.js';
 import FBXLoader from 'three-fbxloader-offical';
+import Map from '../components/Map'
 
 export default class Canvas extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            showMap: false
+        }
+    }
+
     componentDidMount() {
 
 
@@ -459,13 +468,18 @@ export default class Canvas extends React.Component {
     render() {
         return <div>
             <div id="blocker" style={{display: '-webkit-box'}}>
-
+                <button onClick={this.showMap}>Show Map</button>
                 <div id="instructions">
                     <span style={{fontSize:40}}>Click to play</span>
                     <br/>
                     (W,A,S,D = Move, SPACE = Jump, MOUSE = Look, CLICK = Shoot)
                 </div>
             </div>
+            {this.state.showMap && <Map />}
         </div>
+    }
+
+    showMap = () => {
+        this.setState({showMap: true});
     }
 }
