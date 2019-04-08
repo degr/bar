@@ -82,10 +82,6 @@ export default class Canvas extends React.Component {
         init();
         animate();
 
-        function detectFPS() {
-
-
-        }
 
         function initCannon(){
             // Setup our world
@@ -177,7 +173,8 @@ export default class Canvas extends React.Component {
             camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
             scene = new THREE.Scene();
-            //scene.fog = new THREE.Fog( 0x000000, 0, 500 );
+            //scene.background = new THREE.Color( 0x000000 );
+            //scene.fog = new THREE.Fog( 0xffffff, 1, 3 );
 
             var ambient = new THREE.AmbientLight( 0x00C3FF, 0.43 );
             scene.add( ambient );
@@ -435,8 +432,6 @@ export default class Canvas extends React.Component {
         function animate() {
             requestAnimationFrame( animate );
 
-            //let t0 = performance.now();
-
             if(settings.enabled){
                 world.step(dt);
                 if ( mixer_01 ) mixer_01.update( dt );
@@ -449,9 +444,6 @@ export default class Canvas extends React.Component {
             renderer.render( scene, camera );
             time = Date.now();
 
-            //let t1 = performance.now();
-
-            //console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
         }
 
     }
