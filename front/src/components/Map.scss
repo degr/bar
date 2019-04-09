@@ -1,8 +1,141 @@
+
+
 .bar-map {
-    position: relative;
+    box-shadow: gray;
+    border: 2px solid rgba(32, 18, 5, 1);
+    border-radius: 5px;
+    position: absolute;
     top: 100px;
     left: 100px;
-    width: 50%;
-    height: 50%;
-    background-image: url("bar_top_view.jpg");
+    width: 57%;
+    height: 80%;
+    background-color: rgba(32, 18, 5, 0.7);
+    //background-image: url("bar_top_view.jpg");
   }
+
+.ui{
+    position: absolute;
+}
+
+.layer {
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#P1{
+    margin: 8px;
+    height: 50px;
+    width: 50px;
+    border: 2px solid #116900;
+    background-color: #116900;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 43px;
+
+}
+
+#P2{
+    margin: 8px;
+    height: 50px;
+    width: 50px;
+    border: 2px solid #116900;
+    background-color: #116900;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 100px;
+}
+#P3{
+    margin: 8px;
+    height: 50px;
+    width: 50px;
+    border: 2px solid #116900;
+    background-color: #116900;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 150px;
+}
+#P4{
+    margin: 8px;
+    height: 50px;
+    width: 50px;
+    border: 2px solid #116900;
+    background-color: #116900;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 195px;
+}
+#P5{
+    margin: 8px;
+    height: 50px;
+    width: 50px;
+    border: 2px solid #116900;
+    background-color: #116900;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 225px;
+}
+#P6{
+    margin: 8px;
+    height: 50px;
+    width: 50px;
+    border: 2px solid #116900;
+    background-color: #116900;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 225px;
+}
+#P7{
+    margin: 8px;
+    height: 50px;
+    width: 50px;
+    border: 2px solid #116900;
+    background-color: #116900;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 195px;
+}
+#P8{
+    margin: 8px;
+    height: 50px;
+    width: 50px;
+    border: 2px solid #116900;
+    background-color: #116900;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 150px;
+}
+#P9{
+    margin: 8px;
+    height: 50px;
+    width: 50px;
+    border: 2px solid #116900;
+    background-color: #116900;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 100px;
+}
+#P10{
+    margin: 8px;
+    height: 50px;
+    width: 50px;
+    border: 2px solid #116900;
+    background-color: #116900;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    top: 43px;
+
+}
