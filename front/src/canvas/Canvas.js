@@ -462,9 +462,7 @@ export default class Canvas extends React.Component {
             <div id="blocker" style={{display: '-webkit-box'}}>
                 <button onClick={this.showMap}>Show Map</button>
                 <div id="instructions">
-                    <span style={{fontSize:40}}>Click to play</span>
-                    <br/>
-                    (W,A,S,D = Move, SPACE = Jump, MOUSE = Look, CLICK = Shoot)
+                    <span className="enter">LAPPA BAR</span>
                 </div>
             </div>
             {this.state.showMap && <Map />}

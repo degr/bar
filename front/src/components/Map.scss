@@ -1,5 +1,8 @@
 .bar-map {
-  width: 100px;
-  height: 100px;
-  background: red;
-}
+    position: relative;
+    top: 100px;
+    left: 100px;
+    width: 50%;
+    height: 50%;
+    background-image: url("bar_top_view.jpg");
+  }
