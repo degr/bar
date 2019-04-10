@@ -159,7 +159,23 @@ export default class PointerControl {
         // Add to the object
         this.velocity.x += inputVelocity.x;
         this.velocity.z += inputVelocity.z;
-
         this.yawObject.position.copy(this.cannonBody.position);
     };
+
+
+    setPosition(x, y, z) {
+        if(x !== undefined) {
+            this.cannonBody.position.x = x;
+        }
+        if(y !== undefined) {
+            this.cannonBody.position.y = y;
+        }
+        if(z !== undefined) {
+            this.cannonBody.position.z = z;
+        }
+        this.yawObject.position.copy(this.cannonBody.position);
+    }
+    getLocation() {
+        return this.cannonBody.position;
+    }
 }

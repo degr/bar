@@ -5,6 +5,7 @@ import PointerControl from "./PointerControl";
 import Utils from '../utils/Utils.js';
 import FBXLoader from 'three-fbxloader-offical';
 import './Canvas.scss';
+import DefaultLocations from '../utils/DefaultLocations'
 
 class Avatar {
     constructor(pos, mixer, path){
@@ -17,9 +18,13 @@ class Avatar {
 
 export default class Canvas extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.pointerControl = null;
+    }
 
     componentDidMount() {
-
+        const me = this;
 
         var sphereShape, sphereBody, world, physicsMaterial;
         var settings = {enabled: false};
@@ -34,9 +39,9 @@ export default class Canvas extends React.Component {
         var blocker = document.getElementById( 'blocker' );
         var instructions = document.getElementById( 'instructions' );
 
-        let pathBarAvatar = '/models/fbx/avatar_sit_bar_01.fbx'
-        let pathTableAvatar = '/models/fbx/avatar_sit_table_01.fbx'
-        let pathSofaAvatar = '/models/fbx/avatar_sit_sofa_01.fbx'
+        let pathBarAvatar = '/models/fbx/avatar_sit_bar_01.fbx';
+        let pathTableAvatar = '/models/fbx/avatar_sit_table_01.fbx';
+        let pathSofaAvatar = '/models/fbx/avatar_sit_sofa_01.fbx';
 
         //region Coordinates
         let B1CoordCam  = ["0.05", "1.55", "0.3"];
@@ -50,14 +55,14 @@ export default class Canvas extends React.Component {
         let B9CoordCam  = ["0.05", "1.55", "0.3"];
         let B10CoordCam =["0.05", "1.55", "0.3"];
 
-        let T1CoordAvatar = ["-4.85", "0", "3"]
-        let T2CoordAvatar = []
-        let T3CoordAvatar = []
-        let T4CoordAvatar = []
-        let T5CoordAvatar = []
-        let T6CoordAvatar = []
-        let T7CoordAvatar = []
-        let T8CoordAvatar = []
+        let T1CoordAvatar = ["-4.85", "0", "3"];
+        let T2CoordAvatar = [];
+        let T3CoordAvatar = [];
+        let T4CoordAvatar = [];
+        let T5CoordAvatar = [];
+        let T6CoordAvatar = [];
+        let T7CoordAvatar = [];
+        let T8CoordAvatar = [];
 
 
         let T1CoordCam = ["-4.85", "0", "3"];
@@ -135,7 +140,6 @@ export default class Canvas extends React.Component {
             var pointerlockerror = function () {
                 instructions.style.display = '';
             };
-
             // Hook pointer lock state change events
             document.addEventListener( 'pointerlockchange', pointerlockchange, false );
             document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
@@ -292,6 +296,7 @@ export default class Canvas extends React.Component {
             scene.add( ambient );
 
             controls = new PointerControl( camera , sphereBody, settings );
+            me.pointerControl = controls;
             scene.add( controls.getObject() );
 
 
@@ -510,7 +515,7 @@ export default class Canvas extends React.Component {
             controls.update( Date.now() - time );
             renderer.render( scene, camera );
             time = Date.now();
-
+            console.log(controls.getLocation())
         }
 
     }
@@ -525,5 +530,12 @@ export default class Canvas extends React.Component {
             </div>
 
         </div>
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.location !== this.props.location) {
+            const object = DefaultLocations[this.props.location];
+            this.pointerControl.setPosition(object.x, object.y);
+        }
     }
 }

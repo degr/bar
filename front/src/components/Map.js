@@ -1,5 +1,6 @@
 import React from 'react';
 import './Map.scss';
+import SitPosition from './SitPosition';
 
 export default class Map extends React.Component {
 
@@ -12,22 +13,17 @@ export default class Map extends React.Component {
 
 
     render() {
+        const sitPositions = [];
+        for(let i = 0; i < 10; i++) {
+            sitPositions.push(<SitPosition key={i} index={i} onClick={this.onClick}/>)
+        }
         return<div>
             <button className="ui" onClick={this.showMap}>Show Map</button>
 
             {this.state.showMap &&
 
-            <div className="bar-map">MAP HERE
-                <div id="P1" onClick={this.onPlaceClick1}>P1</div>
-                <div id="P2" onClick={this.onPlaceClick2}>P2</div>
-                <div id="P3" onClick={this.onPlaceClick3}>P3</div>
-                <div id="P4" onClick={this.onPlaceClick4}>P4</div>
-                <div id="P5" onClick={this.onPlaceClick5}>P5</div>
-                <div id="P6" onClick={this.onPlaceClick6}>P6</div>
-                <div id="P7" onClick={this.onPlaceClick7}>P7</div>
-                <div id="P8" onClick={this.onPlaceClick8}>P8</div>
-                <div id="P9" onClick={this.onPlaceClick9}>P9</div>
-                <div id="P10" onClick={this.onPlaceClick10}>P10</div>
+            <div className="bar-map">
+                {sitPositions}
             </div>
             }
         </div>
@@ -35,37 +31,13 @@ export default class Map extends React.Component {
     }
     showMap = () => {
         this.setState({showMap: true});
-    }
+    };
 
-    onPlaceClick1 = () => {
-        this.setState({showMap: false});
-    }
-    onPlaceClick2 = () => {
-        this.setState({showMap: false});
-    }
-    onPlaceClick3 = () => {
-        this.setState({showMap: false});
-    }
-    onPlaceClick4 = () => {
-        this.setState({showMap: false});
-    }
-    onPlaceClick5 = () => {
-        this.setState({showMap: false});
-    }
-    onPlaceClick6 = () => {
-        this.setState({showMap: false});
-    }
-    onPlaceClick7 = () => {
-        this.setState({showMap: false});
-    }
-    onPlaceClick8 = () => {
-        this.setState({showMap: false});
-    }
-    onPlaceClick9 = () => {
-        this.setState({showMap: false});
-    }
-    onPlaceClick10 = () => {
-        this.setState({showMap: false});
+    onClick = (index) => {
+        this.setState(
+            {showMap: false},
+            () => this.props.onLocationChange(index)
+        );
     }
 
 
