@@ -18,16 +18,16 @@ export default class Map extends React.Component {
             {this.state.showMap &&
 
             <div className="bar-map">MAP HERE
-                <div id="P1" onClick={this.onPlaceClick1}></div>
-                <div id="P2" onClick={this.onPlaceClick2}></div>
-                <div id="P3" onClick={this.onPlaceClick3}></div>
-                <div id="P4" onClick={this.onPlaceClick4}></div>
-                <div id="P5" onClick={this.onPlaceClick5}></div>
-                <div id="P6" onClick={this.onPlaceClick6}></div>
-                <div id="P7" onClick={this.onPlaceClick7}></div>
-                <div id="P8" onClick={this.onPlaceClick8}></div>
-                <div id="P9" onClick={this.onPlaceClick9}></div>
-                <div id="P10" onClick={this.onPlaceClick10}></div>
+                <div id="P1" onClick={this.onPlaceClick1}>P1</div>
+                <div id="P2" onClick={this.onPlaceClick2}>P2</div>
+                <div id="P3" onClick={this.onPlaceClick3}>P3</div>
+                <div id="P4" onClick={this.onPlaceClick4}>P4</div>
+                <div id="P5" onClick={this.onPlaceClick5}>P5</div>
+                <div id="P6" onClick={this.onPlaceClick6}>P6</div>
+                <div id="P7" onClick={this.onPlaceClick7}>P7</div>
+                <div id="P8" onClick={this.onPlaceClick8}>P8</div>
+                <div id="P9" onClick={this.onPlaceClick9}>P9</div>
+                <div id="P10" onClick={this.onPlaceClick10}>P10</div>
             </div>
             }
         </div>
