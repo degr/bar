@@ -7,7 +7,7 @@ export default class PointerControl {
     constructor(camera, cannonBody, settings) {
         this.settings = settings;
         const eyeYPos = 2; // eyes are 2 meters above the ground
-        this.velocityFactor = 0.2;
+        this.velocityFactor = 0.4;
         this.jumpVelocity = 20;
         this.cannonBody = cannonBody;
         this.pitchObject = new THREE.Object3D();
@@ -160,6 +160,7 @@ export default class PointerControl {
         this.velocity.x += inputVelocity.x;
         this.velocity.z += inputVelocity.z;
         this.yawObject.position.copy(this.cannonBody.position);
+        console.log(this.cannonBody.position);
     };
 
 
