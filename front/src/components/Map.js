@@ -35,8 +35,10 @@ export default class Map extends React.Component {
 
     onClick = (index) => {
         this.setState(
+            //вызывается инициирование аватара. Передается индекс (индекс в нашем случаем - место в баре)
             {showMap: false},
-            () => this.props.onLocationChange(index)
+            () => this.props.onLocationChange(index),
+            //console.log(index)
         );
     }
 
