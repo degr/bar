@@ -8,10 +8,11 @@ import './Canvas.scss';
 import DefaultLocations from '../utils/DefaultLocations';
 
 let scene = new THREE.Scene();
-let loader = new FBXLoader();
 
+let loader = new FBXLoader();
 let mixer_01;
 let avatar_01;
+let avatar_pos;
 
 function loadAvatar(path, pos, clb){
     loader.load( path,  (avatar) => {
@@ -23,6 +24,7 @@ function loadAvatar(path, pos, clb){
         let action = mixer.clipAction( avatar.animations[ 0 ] );
         action.play();
 
+        avatar_pos = pos;
         avatar.position.set(pos["x"], pos["y"], pos["z"]);
         avatar.scale.set(0.1, 0.1, 0.1);
         avatar.rotateY = Math.PI;
@@ -57,72 +59,7 @@ export default class Canvas extends React.Component {
         let pathTableAvatar = '/models/fbx/avatar_sit_table_01.fbx';
         let pathSofaAvatar = '/models/fbx/avatar_sit_sofa_01.fbx';
 
-        //region Coordinates
-        let B1CoordCam  = [0.05, 1.55, 0.3];
-        let B2CoordCam  = ["0.05", "1.55", "0.3"];
-        let B3CoordCam  = ["0.05", "1.55", "0.3"];
-        let B4CoordCam  = ["0.05", "1.55", "0.3"];
-        let B5CoordCam  = ["0.05", "1.55", "0.3"];
-        let B6CoordCam  = [0.05, 1.55, 0.3];
-        let B7CoordCam  = ["0.05", "1.55", "0.3"];
-        let B8CoordCam  = ["0.05", "1.55", "0.3"];
-        let B9CoordCam  = ["0.05", "1.55", "0.3"];
-        let B10CoordCam = ["0.05", "1.55", "0.3"];
 
-        let T1CoordAvatar = ["-4.85", "0", "3"];
-        let T2CoordAvatar = [];
-        let T3CoordAvatar = [];
-        let T4CoordAvatar = [];
-        let T5CoordAvatar = [];
-        let T6CoordAvatar = [];
-        let T7CoordAvatar = [];
-        let T8CoordAvatar = [];
-
-
-        let T1CoordCam = ["-4.85", "0", "3"];
-        let T2CoordCam = [];
-        let T3CoordCam = [];
-        let T4CoordCam = [];
-        let T5CoordCam = [];
-        let T6CoordCam = [];
-        let T7CoordCam = [];
-        let T8CoordCam = [];
-
-        let S1CoordAvatar = [];
-        let S2CoordAvatar = ["3.84", "0", "4.1"];
-        let S3CoordAvatar = [];
-        let S4CoordAvatar = [];
-        let S5CoordAvatar = [];
-        let S6CoordAvatar = [];
-        let S7CoordAvatar = [];
-        let S8CoordAvatar = [];
-        let S9CoordAvatar = [];
-
-        let S1CoordCam = [];
-        let S2CoordCam = ["3.84", "0", "4.1"];
-        let S3CoordCam = [];
-        let S4CoordCam = [];
-        let S5CoordCam = [];
-        let S6CoordCam = [];
-        let S7CoordCam = [];
-        let S8CoordCam = [];
-        let S9CoordCam = [];
-
-
-
-
-
-        let B1CoordAvatar  = ["0.05", "1.55", "0.3"];
-        let B2CoordAvatar  = ["0.05", "1.55", "0.3"];
-        let B3CoordAvatar  = ["0.05", "1.55", "0.3"];
-        let B4CoordAvatar  = ["0.05", "1.55", "0.3"];
-        let B5CoordAvatar  = ["0.05", "1.55", "0.3"];
-        let B6CoordAvatar  = ["0.10", "-0.02", "0.54"];
-        let B7CoordAvatar  = ["0.05", "1.55", "0.3"];
-        let B8CoordAvatar  = ["0.05", "1.55", "0.3"];
-        let B9CoordAvatar  = ["0.05", "1.55", "0.3"];
-        let B10CoordAvatar =["0.05", "1.55", "0.3"];
-        //endregion
 
         if ( Utils.hasPointerLock() )
         {
@@ -217,7 +154,7 @@ export default class Canvas extends React.Component {
             sphereShape = new CANNON.Sphere(radius);
             sphereBody = new CANNON.Body({ mass: mass });
             sphereBody.addShape(sphereShape);
-            sphereBody.position.set(B6CoordCam[0], B6CoordCam[1], B6CoordCam[2]);
+            sphereBody.position.set(0, 0, 0);
             sphereBody.quaternion.setFromEuler(Math.PI/2, 0, 0);
             sphereBody.linearDamping = 0.9;
             world.add(sphereBody);
@@ -471,22 +408,21 @@ export default class Canvas extends React.Component {
         function animate() {
             requestAnimationFrame( animate );
 
-
+            if (avatar_01 && avatar_pos){
+                avatar_01.rotation.y = avatar_pos["a"];
+            }
 
             if(settings.enabled){
                 world.step(dt);
                 meshPlanet.rotation.y += rotationSpeed * dt;
                 if ( mixer_01 ) mixer_01.update( dt );
-                //if ( mixer_02 ) mixer_02.update( dt );
-                //if ( mixer_03 ) mixer_03.update( dt );
 
             }
             controls.update( Date.now() - time );
             renderer.render( scene, camera );
             time = Date.now();
-            //console.log(controls.getLocation())
+            console.log(controls.getLocation())
         }
-
     }
 
     render() {
