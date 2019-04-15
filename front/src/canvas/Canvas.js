@@ -8,11 +8,8 @@ import './Canvas.scss';
 import DefaultLocations from '../utils/DefaultLocations';
 
 let scene = new THREE.Scene();
-
 let loader = new FBXLoader();
-let mixer_01;
-let avatar_01;
-let avatar_pos;
+let mixer_01, avatar_01, avatar_pos;
 
 function loadAvatar(path, pos, clb){
     loader.load( path,  (avatar) => {
@@ -435,7 +432,6 @@ export default class Canvas extends React.Component {
             </div>
         </div>
     }
-
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.location !== this.props.location) {
