@@ -18,7 +18,12 @@ export default class Map extends React.Component {
             sitPositions.push(<SitPosition key={i} index={i} onClick={this.onClick}/>)
         }
         return<div>
-            <button className="ui" onClick={this.showMap}>Show Map</button>
+            <button className="btn_menu" />
+            <button className="btn_map" onClick={this.showMap}/>
+            <button className="btn_msg" />
+            <button className="btn_edit" />
+            <button className="btn_group" />
+            <button className="btn_volume" />
 
             {this.state.showMap &&
 

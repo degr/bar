@@ -10,12 +10,87 @@
     width: 57%;
     height: 80%;
     background-color: rgba(32, 18, 5, 0.7);
-    //background-image: url("bar_top_view.jpg");
   }
 
-.ui{
-    position: absolute;
+
+
+.btn_menu{
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  height: 80px;
+  width: 80px;
+  border: none;
+  transform: scale(0.6, 0.6);
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-image: url("btn_menu.png");
 }
+
+.btn_map{
+  position: absolute;
+  top: -10px;
+  left: 60px;
+  height: 80px;
+  width: 80px;
+  border: none;
+  transform: scale(0.6, 0.6);
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-image: url("btn_map.png");
+}
+
+.btn_msg{
+  position: absolute;
+  top: -10px;
+  left: 110px;
+  height: 80px;
+  width: 80px;
+  border: none;
+  transform: scale(0.6, 0.6);
+  background-color: transparent;
+  background-image: url("btn_msg.png");
+}
+
+.btn_edit{
+  position: absolute;
+  top: -10px;
+  left: 170px;
+  height: 80px;
+  width: 80px;
+  border: none;
+  transform: scale(0.6, 0.6);
+  background-color: transparent;
+  background-image: url("btn_edit.png");
+}
+
+.btn_group{
+  position: absolute;
+  top: -10px;
+  left: 230px;
+  height: 80px;
+  width: 80px;
+  border: none;
+  transform: scale(0.6, 0.6);
+  background-color: transparent;
+  background-image: url("btn_group.png");
+}
+
+.btn_volume{
+  position: absolute;
+  top: -10px;
+  left: 290px;
+  height: 80px;
+  width: 80px;
+  transform: scale(0.6, 0.6);
+  border: none;
+  background-color: transparent;
+  background-image: url("btn_volume.png");
+}
+
+
+
+
 
 .layer {
     background-color: rgba(0, 0, 0, 0.7);
@@ -36,5 +111,5 @@
   background-color: #116900;
   border-radius: 50%;
   display: block;
-  position: absolute;
+  position: relative;
 }
